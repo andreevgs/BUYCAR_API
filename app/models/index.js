@@ -25,10 +25,12 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
+db.offer = require("../models/offer")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.mark = require('../models/mark')(sequelize, Sequelize);
 db.model = require('../models/model')(sequelize, Sequelize);
 db.generation = require('../models/generation')(sequelize, Sequelize);
+db.body = require('../models/body')(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -44,6 +46,7 @@ db.user.belongsToMany(db.role, {
 
 db.mark.hasMany(db.model);
 db.model.hasMany(db.generation);
+db.offer.belongsTo(db.body);
 
 db.ROLES = ["user", "admin", "moderator"];
 

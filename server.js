@@ -19,10 +19,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // database
 const db = require("./app/models");
 const Role = db.role;
+const Offer = db.offer;
+const Body = db.body;
 const Mark = db.mark;
 const Model = db.model;
 
-db.sequelize.sync();
+db.sequelize.sync().then(() => {
+  initial();
+});
 // force: true will drop the table if it already exists
 // db.sequelize.sync({force: true}).then(() => {
 //   console.log('Drop and Resync Database with { force: true }');
@@ -45,18 +49,33 @@ app.listen(PORT, () => {
 });
 
 function initial() {
-  Role.create({
-    id: 1,
-    name: "user"
-  });
+  // Role.create({
+  //   id: 1,
+  //   name: "user"
+  // });
  
-  Role.create({
-    id: 2,
-    name: "moderator"
-  });
+  // Role.create({
+  //   id: 2,
+  //   name: "moderator"
+  // });
  
-  Role.create({
-    id: 3,
-    name: "admin"
-  });
+  // Role.create({
+  //   id: 3,
+  //   name: "admin"
+  // });
+
+  // Body.create({
+  //   name_ru: "Седан"
+  // });
+  // Offer.findByPk(1).then((offer) => {
+  //   Body.findOne({
+  //     where: {
+  //       id: 3
+  //     }
+  //   }).then((body) => {
+  //     offer.setBodyType(body).catch(err=>console.log(err));
+  //   }).catch(err=>console.log(err));
+    
+  // }).catch(err=>console.log(err));
+
 }
