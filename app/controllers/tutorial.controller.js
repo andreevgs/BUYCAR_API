@@ -20,6 +20,7 @@ const getPagingData = (data, page, limit) => {
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
   // Validate request
+  console.log('create: ', req.body);
   if (!req.body.title) {
     res.status(400).send({
       message: "Content can not be empty!"

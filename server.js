@@ -25,7 +25,7 @@ const Mark = db.mark;
 const Model = db.model;
 
 db.sequelize.sync().then(() => {
-  initial();
+  // initial();
 });
 // force: true will drop the table if it already exists
 // db.sequelize.sync({force: true}).then(() => {
@@ -50,20 +50,20 @@ app.listen(PORT, () => {
 });
 
 function initial() {
-  // Role.create({
-  //   id: 1,
-  //   name: "user"
-  // });
+  Role.create({
+    id: 1,
+    name: "user"
+  });
  
-  // Role.create({
-  //   id: 2,
-  //   name: "moderator"
-  // });
+  Role.create({
+    id: 2,
+    name: "moderator"
+  });
  
-  // Role.create({
-  //   id: 3,
-  //   name: "admin"
-  // });
+  Role.create({
+    id: 3,
+    name: "admin"
+  });
 
   // Body.create({
   //   name_ru: "Седан"
