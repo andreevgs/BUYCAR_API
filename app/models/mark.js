@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const Mark = sequelize.define("marks", {
-        systemId: {
+        system_id: {
             type: Sequelize.STRING,
             allowNull: true
         },

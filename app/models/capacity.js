@@ -1,7 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
     const Capacity  = sequelize.define("capacity_values", {
         value: {
-            type: Sequelize.DECIMAL,
+            type: Sequelize.FLOAT,
             allowNull: true
         }
     });

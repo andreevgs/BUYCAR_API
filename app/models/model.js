@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const Model = sequelize.define("models", {
-        systemId: {
+        system_id: {
             type: Sequelize.STRING,
             allowNull: true
         },
