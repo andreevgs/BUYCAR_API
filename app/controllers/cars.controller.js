@@ -8,6 +8,10 @@ const State = db.state;
 const Engine = db.engine;
 const Capacity = db.capacity;
 const Unit = db.unit;
+const Transmission = db.transmission;
+const Color = db.color;
+const Interior = db.interior;
+const Material = db.material;
 
 const Op = db.Sequelize.Op;
 
@@ -104,6 +108,38 @@ exports.createOfferParams = async (req, res) => {
         });
 
         offerParams.units = await Unit.findAll({
+          attributes: ['id', 'name_ru']
+        }).catch(err => {
+              res.status(500).send({
+                message: "Error getting units"
+            });
+        });
+
+        offerParams.transmissions = await Transmission.findAll({
+          attributes: ['id', 'name_ru']
+        }).catch(err => {
+              res.status(500).send({
+                message: "Error getting units"
+            });
+        });
+
+        offerParams.colors = await Color.findAll({
+          attributes: ['id', 'name_ru']
+        }).catch(err => {
+              res.status(500).send({
+                message: "Error getting units"
+            });
+        });
+
+        offerParams.interiors = await Interior.findAll({
+          attributes: ['id', 'name_ru']
+        }).catch(err => {
+              res.status(500).send({
+                message: "Error getting units"
+            });
+        });
+
+        offerParams.materials = await Material.findAll({
           attributes: ['id', 'name_ru']
         }).catch(err => {
               res.status(500).send({
