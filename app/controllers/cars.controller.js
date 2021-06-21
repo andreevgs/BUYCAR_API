@@ -2,6 +2,12 @@ const db = require("../models");
 const Mark = db.mark;
 const Model = db.model;
 const Generation = db.generation;
+const Year = db.year;
+const Body = db.body;
+const State = db.state;
+const Engine = db.engine;
+const Capacity = db.capacity;
+const Unit = db.unit;
 
 const Op = db.Sequelize.Op;
 
@@ -54,6 +60,54 @@ exports.createOfferParams = async (req, res) => {
         }).catch(err => {
                 res.status(500).send({
                 message: "Error getting marks"
+            });
+        });
+
+        offerParams.years = await Year.findAll({
+            attributes: ['id', 'value']
+        }).catch(err => {
+              res.status(500).send({
+                message: "Error getting years"
+            });
+        });
+
+        offerParams.bodyTypes = await Body.findAll({
+            attributes: ['id', 'name_ru']
+        }).catch(err => {
+              res.status(500).send({
+                message: "Error getting body types"
+            });
+        });
+
+        offerParams.states = await State.findAll({
+          attributes: ['id', 'name_ru']
+        }).catch(err => {
+              res.status(500).send({
+                message: "Error getting states"
+            });
+        });
+
+        offerParams.engineTypes = await Engine.findAll({
+          attributes: ['id', 'name_ru']
+        }).catch(err => {
+              res.status(500).send({
+                message: "Error getting engine types"
+            });
+        });
+
+        offerParams.capacityValues = await Capacity.findAll({
+          attributes: ['id', 'value']
+        }).catch(err => {
+              res.status(500).send({
+                message: "Error getting capacity values"
+            });
+        });
+
+        offerParams.units = await Unit.findAll({
+          attributes: ['id', 'name_ru']
+        }).catch(err => {
+              res.status(500).send({
+                message: "Error getting units"
             });
         });
     }
