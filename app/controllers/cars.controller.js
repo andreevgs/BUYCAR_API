@@ -1,3 +1,5 @@
+const upload = require("../middleware/upload");
+
 const db = require("../models");
 const Mark = db.mark;
 const Model = db.model;
@@ -149,6 +151,26 @@ exports.createOfferParams = async (req, res) => {
     }
     res.send(offerParams);
 
+};
+
+exports.multipleUpload = async (req, res) => {
+  try {
+    await upload(req, res);
+    console.log('files: ', req.files);
+    console.log('body: ', req.body);
+    if (req.files.length <= 0) {
+      return res.send(`You must select at least 1 file.`);
+    }
+
+    return res.send(`Files has been uploaded.`);
+  } catch (error) {
+    console.log(error);
+
+    if (error.code === "LIMIT_UNEXPECTED_FILE") {
+      return res.status(500).send("Too many files to upload.");
+    }
+    return res.status(500).send(`Error when trying upload many files: ${error}`);
+  }
 };
 
 // Update a Tutorial by the id in the request

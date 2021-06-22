@@ -16,4 +16,10 @@ module.exports = function(app) {
     controller.createOfferParams
   );
 
+  app.post(
+    "/api/cars/add",
+    // [authJwt.verifyToken],
+    controller.multipleUpload
+  );
+
 };
