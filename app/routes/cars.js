@@ -1,4 +1,5 @@
 const { authJwt } = require("../middleware");
+const { upload } = require("../middleware");
 const controller = require("../controllers/cars.controller");
 
 module.exports = function(app) {
@@ -19,7 +20,11 @@ module.exports = function(app) {
   app.post(
     "/api/cars/add",
     // [authJwt.verifyToken],
-    controller.multipleUpload
+    [
+      upload.uploadFilesMiddleware,
+      upload.resizeAndSaveImages
+    ],
+    controller.saveOffer
   );
 
 };

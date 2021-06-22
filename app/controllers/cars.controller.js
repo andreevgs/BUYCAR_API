@@ -1,5 +1,3 @@
-const upload = require("../middleware/upload");
-
 const db = require("../models");
 const Mark = db.mark;
 const Model = db.model;
@@ -153,11 +151,11 @@ exports.createOfferParams = async (req, res) => {
 
 };
 
-exports.multipleUpload = async (req, res) => {
+exports.saveOffer = async (req, res) => {
   try {
-    await upload(req, res);
+    // await upload(req, res);
     console.log('files: ', req.files);
-    console.log('body: ', req.body);
+    console.log('body in controller: ', req.body);
     if (req.files.length <= 0) {
       return res.send(`You must select at least 1 file.`);
     }
