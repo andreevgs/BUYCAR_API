@@ -54,6 +54,7 @@ db.roof = require('../models/roof')(sequelize, Sequelize);
 db.state = require('../models/state')(sequelize, Sequelize);
 db.year = require('../models/year')(sequelize, Sequelize);
 db.unit = require('../models/unit')(sequelize, Sequelize);
+db.image = require('../models/image')(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -70,6 +71,9 @@ db.user.belongsToMany(db.role, {
 db.mark.hasMany(db.model);
 db.model.hasMany(db.generation);
 
+db.mark.hasMany(db.offer);
+db.model.hasMany(db.offer);
+db.generation.hasMany(db.offer);
 db.body.hasMany(db.offer);
 db.camera.hasMany(db.offer);
 db.capacity.hasMany(db.offer);
@@ -93,6 +97,8 @@ db.year.hasMany(db.offer);
 db.user.hasMany(db.offer);
 
 db.region.hasMany(db.city);
+
+db.offer.hasMany(db.image);
 
 db.ROLES = ["user", "admin", "moderator"];
 

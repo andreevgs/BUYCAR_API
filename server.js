@@ -10,6 +10,8 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use('/public', express.static(__dirname + '/uploads'));
+
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 

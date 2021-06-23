@@ -12,6 +12,11 @@ module.exports = function(app) {
   });
 
   app.get(
+    "/api/cars",
+    controller.findOffers
+  );
+
+  app.get(
     "/api/cars/add",
     // [authJwt.verifyToken],
     controller.createOfferParams
@@ -19,8 +24,8 @@ module.exports = function(app) {
 
   app.post(
     "/api/cars/add",
-    // [authJwt.verifyToken],
     [
+      authJwt.verifyToken,
       upload.uploadFilesMiddleware,
       upload.resizeAndSaveImages
     ],

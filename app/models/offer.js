@@ -1,5 +1,9 @@
 module.exports = (sequelize, Sequelize) => {
     const Offer = sequelize.define("offers", {
+        status: {
+            type: Sequelize.INTEGER,
+            allowNull: true
+        },
         cost: {
             type: Sequelize.INTEGER,
             allowNull: true
@@ -16,7 +20,6 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.TEXT,
             allowNull: true
         },
-
         is_abs: {
             type: Sequelize.BOOLEAN,
             allowNull: false,

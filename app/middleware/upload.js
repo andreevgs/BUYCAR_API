@@ -36,7 +36,7 @@ const resizeAndSaveImages = async (req, res, next) => {
       req.body.images.push(newFilename);
     })
   );
-  console.log('images resized: ', req.body);
+  // console.log('images resized: ', req.body);
   next();
 };
 
@@ -57,7 +57,7 @@ const resizeAndSaveImages = async (req, res, next) => {
 //   }
 // });
 
-let uploadFiles = multer({ storage: multerStorage, fileFilter: multerFilter }).array("files", 20);
+let uploadFiles = multer({ storage: multerStorage, limits: {fileSize: 15000000}, fileFilter: multerFilter }).array("files", 20);
 let uploadFilesMiddleware = util.promisify(uploadFiles);
 
 const upload = {

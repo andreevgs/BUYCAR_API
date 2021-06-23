@@ -12,6 +12,8 @@ const Transmission = db.transmission;
 const Color = db.color;
 const Interior = db.interior;
 const Material = db.material;
+const Offer = db.offer;
+const Image = db.image;
 
 const Op = db.Sequelize.Op;
 
@@ -23,12 +25,57 @@ const getPagination = (page, size) => {
 };
 
 const getPagingData = (data, page, limit) => {
-  const { count: totalItems, rows: tutorials } = data;
+  const { count: totalItems, rows: offers } = data;
   const currentPage = page ? +page : 0;
   const totalPages = Math.ceil(totalItems / limit);
 
-  return { totalItems, tutorials, totalPages, currentPage };
+  return { totalItems, offers, totalPages, currentPage };
 };
+
+const checkAllFields = (dataObject) => {
+  if(
+    dataObject.checkedMark && 
+    dataObject.checkedModel && 
+    dataObject.checkedGeneration && 
+    dataObject.checkedYear &&
+    dataObject.checkedBody &&
+    dataObject.checkedState &&
+    dataObject.checkedEngine &&
+    dataObject.checkedCapacity &&
+    dataObject.checkedUnit &&
+    dataObject.checkedTransmission &&
+    dataObject.checkedColor &&
+    dataObject.checkedInterior &&
+    dataObject.checkedMaterial &&
+    dataObject.mileage &&
+    dataObject.cost
+  ){
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+const createObjectFromFields = (dataObject) => {
+  return {
+    cost: dataObject.cost,
+    mileage_km: dataObject.mileage,
+    markId: dataObject.checkedMark,
+    modelId: dataObject.checkedModel,
+    generationId: dataObject.checkedGeneration,
+    yearId: dataObject.checkedYear,
+    bodyId: dataObject.checkedBody,
+    stateId: dataObject.checkedState,
+    engineTypeId: dataObject.checkedEngine,
+    capacityValueId: dataObject.checkedCapacity,
+    unitId: dataObject.checkedUnit,
+    transmissionTypeId: dataObject.checkedTransmission,
+    colorId: dataObject.checkedColor,
+    interiorId: dataObject.checkedInterior,
+    materialId: dataObject.checkedMaterial
+  }
+}
 
 // Find params for offer creator
 exports.createOfferParams = async (req, res) => {
@@ -152,23 +199,49 @@ exports.createOfferParams = async (req, res) => {
 };
 
 exports.saveOffer = async (req, res) => {
-  try {
-    // await upload(req, res);
-    console.log('files: ', req.files);
-    console.log('body in controller: ', req.body);
-    if (req.files.length <= 0) {
-      return res.send(`You must select at least 1 file.`);
-    }
-
-    return res.send(`Files has been uploaded.`);
-  } catch (error) {
-    console.log(error);
-
-    if (error.code === "LIMIT_UNEXPECTED_FILE") {
-      return res.status(500).send("Too many files to upload.");
-    }
-    return res.status(500).send(`Error when trying upload many files: ${error}`);
+  console.log('files: ', req.files);
+  
+  if (req.files.length <= 0) {
+    return res.status(500).send({ message: 'Необходимо прикрепить хотя бы 1 фото' });
   }
+
+  if (checkAllFields(req.body)){
+    let offer = createObjectFromFields(req.body);
+    offer.userId = req.userId;
+    offer.status = 1;
+    console.log('offer: ', offer);
+    if(offer.capacityValueId === 'undefined'){
+      offer.capacityValueId = null;
+    }
+    Offer.create(offer)
+      .then((createdOffer) => {
+        req.body.images.forEach((image, number) => {
+          createdOffer.createImage({name: image, is_main: number === 0 ? 1 : 0});
+        });
+        res.send({ message: 'Объявление создано успешно' });
+      })
+      .catch(error => {
+        console.log(error);
+        return res.status(500).send({ message: 'Ошибка при загрузке данных' });
+      });
+  }
+};
+
+exports.findOffers = (req, res) => {
+  const { page } = req.query;
+  const { limit, offset } = getPagination(page, 3);
+
+  Offer.findAndCountAll({ where: { status: 1 }, limit, offset })
+    .then(data => {
+      const response = getPagingData(data, page, limit);
+      res.send(response);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials."
+      });
+    });
 };
 
 // Update a Tutorial by the id in the request
