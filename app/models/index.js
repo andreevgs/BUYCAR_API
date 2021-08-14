@@ -24,7 +24,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
+db.news = require("./news.js")(sequelize, Sequelize);
 
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.offer = require("../models/offer")(sequelize, Sequelize);
@@ -66,6 +66,18 @@ db.user.belongsToMany(db.role, {
   through: "user_roles",
   foreignKey: "userId",
   otherKey: "roleId"
+});
+
+db.offer.belongsToMany(db.user, {
+  through: "favorites",
+  foreignKey: "offerId",
+  otherKey: "userId"
+});
+
+db.user.belongsToMany(db.offer, {
+  through: "favorites",
+  foreignKey: "userId",
+  otherKey: "offerId"
 });
 
 db.mark.hasMany(db.model);

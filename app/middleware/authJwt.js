@@ -23,6 +23,17 @@ verifyToken = (req, res, next) => {
   });
 };
 
+checkAuth = (req, _, next) => {
+  let token = req.headers["x-access-token"];
+
+  if (token) {
+    jwt.verify(token, config.secret, (err, decoded) => {
+      req.userId = decoded.id;
+    });
+  }
+  next();
+};
+
 isAdmin = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
@@ -82,6 +93,7 @@ isModeratorOrAdmin = (req, res, next) => {
 
 const authJwt = {
   verifyToken: verifyToken,
+  checkAuth: checkAuth,
   isAdmin: isAdmin,
   isModerator: isModerator,
   isModeratorOrAdmin: isModeratorOrAdmin

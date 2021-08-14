@@ -11,6 +11,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 app.use('/public', express.static(__dirname + '/uploads'));
+app.use('/newsmd', express.static(__dirname + '/news'));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -43,7 +44,7 @@ app.get("/", (req, res) => {
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
-require("./app/routes/tutorial.routes")(app);
+require("./app/routes/news")(app);
 require("./app/routes/cars")(app);
 
 // set port, listen for requests

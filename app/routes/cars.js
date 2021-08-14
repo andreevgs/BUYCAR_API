@@ -12,15 +12,37 @@ module.exports = function(app) {
   });
 
   app.get(
-    "/api/cars",
-    controller.findOffers
-  );
-
-  app.get(
     "/api/cars/add",
     // [authJwt.verifyToken],
     controller.createOfferParams
   );
+
+  app.get(
+    [
+      "/api/cars",
+      "/api/cars/:mark",
+      "/api/cars/:mark/:model",
+      "/api/cars/:mark/:model/:generation"
+    ],
+    [authJwt.checkAuth],
+    controller.findOffers
+  );
+
+  app.get(
+    "/api/cars/:mark/:model/:generation/:offer",
+    controller.showOffer
+  );
+
+  app.post(
+    "/api/cars/:mark/:model/:generation/:offer/favorite",
+    [authJwt.verifyToken],
+    controller.createFavorite
+  );
+
+  // app.delete(
+  //   "/api/cars/:mark/:model/:generation/:offer/favorite",
+  //   controller.deleteFavorite
+  // );
 
   app.post(
     "/api/cars/add",

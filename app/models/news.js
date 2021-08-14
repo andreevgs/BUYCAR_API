@@ -1,9 +1,12 @@
 module.exports = (sequelize, Sequelize) => {
-  const Tutorial = sequelize.define("tutorial", {
+  const News = sequelize.define("news_articles", {
     title: {
       type: Sequelize.TEXT
     },
     description: {
+      type: Sequelize.TEXT
+    },
+    cover: {
       type: Sequelize.TEXT
     },
     published: {
@@ -11,5 +14,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
-  return Tutorial;
+  return News;
 };

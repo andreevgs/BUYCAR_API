@@ -40,23 +40,6 @@ const resizeAndSaveImages = async (req, res, next) => {
   next();
 };
 
-// {
-//   destination: (req, file, callback) => {
-//     callback(null, path.join(`${__dirname}/../../uploads`));
-//   },
-//   filename: (req, file, callback) => {
-//     const match = ["image/png", "image/jpeg"];
-
-//     if (match.indexOf(file.mimetype) === -1) {
-//       var message = `<strong>${file.originalname}</strong> is invalid. Only accept png/jpeg.`;
-//       return callback(message, null);
-//     }
-
-//     var filename = `${Date.now()}-${file.originalname}`;
-//     callback(null, filename);
-//   }
-// });
-
 let uploadFiles = multer({ storage: multerStorage, limits: {fileSize: 15000000}, fileFilter: multerFilter }).array("files", 20);
 let uploadFilesMiddleware = util.promisify(uploadFiles);
 
